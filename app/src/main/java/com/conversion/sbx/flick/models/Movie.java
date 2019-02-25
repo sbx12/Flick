@@ -41,6 +41,9 @@ public class Movie {
     public String getBackdropPath() {
         return String.format("https://image.tmdb.org/t/p/w342/%s", backdropPath);
     }
+    public Boolean isPopular(){
+        return this.voteAverage >= 7.0;
+    }
 
     public int getMovieId() {
         return movieId;

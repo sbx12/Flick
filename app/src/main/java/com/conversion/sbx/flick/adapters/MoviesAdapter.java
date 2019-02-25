@@ -23,6 +23,7 @@ public class MoviesAdapter extends  RecyclerView.Adapter<MoviesAdapter.ViewHolde
 
     Context context;
     List<Movie> movies;
+    int yesP = 1, noP = 0;
    
 
     public MoviesAdapter(Context context, List<Movie> movies) {
@@ -34,7 +35,12 @@ public class MoviesAdapter extends  RecyclerView.Adapter<MoviesAdapter.ViewHolde
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         Log.d("smile", "onCreateViewHolder");
-        View view = LayoutInflater.from(context).inflate(R.layout.item_movie, parent, false);
+        View view;
+        if(getItemViewType(viewType) == yesP)
+            view = LayoutInflater.from(context).inflate(R.layout.item_movie_5star, parent, false);
+        else
+            view = LayoutInflater.from(context).inflate(R.layout.item_movie, parent, false);
+
         return new ViewHolder(view);
     }
 
@@ -42,7 +48,10 @@ public class MoviesAdapter extends  RecyclerView.Adapter<MoviesAdapter.ViewHolde
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         Log.d("smile", "onBindViewHolder" + position);
        Movie movie =  movies.get(position);
-       holder.bind(movie);
+       if (getItemViewType(position) == yesP)
+           holder.bindPop(movie);
+       else
+           holder.bind(movie);
     }
 
     @Override
@@ -50,11 +59,14 @@ public class MoviesAdapter extends  RecyclerView.Adapter<MoviesAdapter.ViewHolde
         return movies.size();
     }
 
-/*    @Override
+    @Override
     public int getItemViewType(int position) {
-        return super.getItemViewType(position);
+        if(movies.get(position).isPopular())
+            return yesP;
+        else
+            return noP;
     }
-*/
+
     class ViewHolder extends RecyclerView.ViewHolder{
 
         TextView tvTitle;
@@ -73,6 +85,7 @@ public class MoviesAdapter extends  RecyclerView.Adapter<MoviesAdapter.ViewHolde
             container = itemView.findViewById(R.id.Container);
         }
 
+        //For the under 5 stars movies
         public void bind(Movie movie) {
             tvTitle.setText(movie.getTitle());
             tvOverview.setText(movie.getOverview());
@@ -83,6 +96,15 @@ public class MoviesAdapter extends  RecyclerView.Adapter<MoviesAdapter.ViewHolde
             if(context.getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE){
                 imageUrl = movie.getBackdropPath();
             }
+
+            Glide.with(context).load(imageUrl).apply(new RequestOptions().placeholder(R.drawable.moon1)).into(tvPoster);
+
+        }
+
+        //For the poplar movies
+        public void bindPop(Movie movie) {
+            String imageUrl;
+            imageUrl = movie.getBackdropPath();
 
             Glide.with(context).load(imageUrl).apply(new RequestOptions().placeholder(R.drawable.moon1)).into(tvPoster);
 
