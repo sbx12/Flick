@@ -46,8 +46,8 @@ public class Movie {
         return movieId;
     }
 
-    public double getVoteAverage() {
-        return voteAverage;
+    public String getVoteAverage() {
+        return String.format(String.valueOf(voteAverage));
     }
 
 

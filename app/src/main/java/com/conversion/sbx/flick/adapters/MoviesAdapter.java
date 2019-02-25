@@ -13,6 +13,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.conversion.sbx.flick.R;
 import com.conversion.sbx.flick.models.Movie;
 
@@ -22,6 +23,7 @@ public class MoviesAdapter extends  RecyclerView.Adapter<MoviesAdapter.ViewHolde
 
     Context context;
     List<Movie> movies;
+   
 
     public MoviesAdapter(Context context, List<Movie> movies) {
         this.context = context;
@@ -40,7 +42,6 @@ public class MoviesAdapter extends  RecyclerView.Adapter<MoviesAdapter.ViewHolde
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         Log.d("smile", "onBindViewHolder" + position);
        Movie movie =  movies.get(position);
-
        holder.bind(movie);
     }
 
@@ -49,17 +50,25 @@ public class MoviesAdapter extends  RecyclerView.Adapter<MoviesAdapter.ViewHolde
         return movies.size();
     }
 
+/*    @Override
+    public int getItemViewType(int position) {
+        return super.getItemViewType(position);
+    }
+*/
     class ViewHolder extends RecyclerView.ViewHolder{
 
         TextView tvTitle;
         TextView tvOverview;
+        TextView tvRating;
         ImageView tvPoster;
         RelativeLayout container;
+
 
         public  ViewHolder(View itemView){
             super(itemView);
             tvTitle = itemView.findViewById(R.id.tvtitle);
             tvOverview = itemView.findViewById(R.id.tvOverView);
+            tvRating = itemView.findViewById(R.id.tvRating);
             tvPoster = itemView.findViewById(R.id.tvPoster);
             container = itemView.findViewById(R.id.Container);
         }
@@ -67,6 +76,7 @@ public class MoviesAdapter extends  RecyclerView.Adapter<MoviesAdapter.ViewHolde
         public void bind(Movie movie) {
             tvTitle.setText(movie.getTitle());
             tvOverview.setText(movie.getOverview());
+            tvRating.setText(movie.getVoteAverage() + "/10");
 
             String imageUrl = movie.getPosterPath();
 
@@ -74,7 +84,7 @@ public class MoviesAdapter extends  RecyclerView.Adapter<MoviesAdapter.ViewHolde
                 imageUrl = movie.getBackdropPath();
             }
 
-            Glide.with(context).load(imageUrl).into(tvPoster);
+            Glide.with(context).load(imageUrl).apply(new RequestOptions().placeholder(R.drawable.moon1)).into(tvPoster);
 
         }
     }
