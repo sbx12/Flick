@@ -3,10 +3,12 @@ package com.conversion.sbx.flick.models;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.parceler.Parcel;
 
 import java.util.ArrayList;
 import java.util.List;
 
+@Parcel
 public class Movie {
 
     int movieId;
@@ -15,6 +17,10 @@ public class Movie {
     String title;
     String overview;
     String backdropPath;
+
+    public Movie(){
+
+    }
 
 
     public Movie(JSONObject jsonObject) throws JSONException{
@@ -53,6 +59,9 @@ public class Movie {
         return String.format(String.valueOf(voteAverage));
     }
 
+    public double getVoteAverageDouble() {
+        return voteAverage;
+    }
 
     public String getTitle() {
         return title;

@@ -1,7 +1,9 @@
 package com.conversion.sbx.flick.adapters;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.res.Configuration;
+import android.os.Parcel;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -11,11 +13,15 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
+import com.conversion.sbx.flick.DetailActivity;
 import com.conversion.sbx.flick.R;
 import com.conversion.sbx.flick.models.Movie;
+
+import org.parceler.Parcels;
 
 import java.util.List;
 
@@ -82,11 +88,11 @@ public class MoviesAdapter extends  RecyclerView.Adapter<MoviesAdapter.ViewHolde
             tvOverview = itemView.findViewById(R.id.tvOverView);
             tvRating = itemView.findViewById(R.id.tvRating);
             tvPoster = itemView.findViewById(R.id.tvPoster);
-            container = itemView.findViewById(R.id.Container);
+            container = itemView.findViewById(R.id.containerimovie);
         }
 
         //For the under 5 stars movies
-        public void bind(Movie movie) {
+        public void bind(final Movie movie) {
             tvTitle.setText(movie.getTitle());
             tvOverview.setText(movie.getOverview());
             tvRating.setText(movie.getVoteAverage() + "/10");
@@ -96,17 +102,25 @@ public class MoviesAdapter extends  RecyclerView.Adapter<MoviesAdapter.ViewHolde
             if(context.getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE){
                 imageUrl = movie.getBackdropPath();
             }
-
+            //NAV to
             Glide.with(context).load(imageUrl).apply(new RequestOptions().placeholder(R.drawable.moon1)).into(tvPoster);
-
+            container.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent i = new Intent(context, DetailActivity.class);
+                    i.putExtra("movie", Parcels.wrap(movie));
+                    context.startActivity(i);
+                }
+            });
         }
 
         //For the poplar movies
-        public void bindPop(Movie movie) {
+        public void bindPop(final Movie movie) {
             String imageUrl;
             imageUrl = movie.getBackdropPath();
 
             Glide.with(context).load(imageUrl).apply(new RequestOptions().placeholder(R.drawable.moon1)).into(tvPoster);
+
 
         }
     }
