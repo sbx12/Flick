@@ -38,7 +38,6 @@ Describe any challenges encountered while building the app.
 ## Flix Part 1
 
 ### User Stories
-`TODO://` In the **User Stories section below**, add an `x` in the `-[ ]` like this `- [x]` for any user story you complete. (🚫 Remove this paragraph after after checking off completed user stories)
 
 #### REQUIRED (10pts)
 - [x] (10pts) User can view a list of movies (title, poster image, and overview) currently playing in theaters from the Movie Database API.
@@ -50,15 +49,15 @@ Describe any challenges encountered while building the app.
 
 - [x] (2pts) Display a nice default [placeholder graphic](https://guides.codepath.org/android/Displaying-Images-with-the-Glide-Library#advanced-usage) for each image during loading
 - [x] (2pts) Improved the user interface by experimenting with styling and coloring.
-- [ ] (2pts) For popular movies (i.e. a movie voted for more than 5 stars), the full backdrop image is displayed. Otherwise, a poster image, the movie title, and overview is listed. Use Heterogenous RecyclerViews and use different ViewHolder layout files for popular movies and less popular ones.
+- [x] (2pts) For popular movies (i.e. a movie voted for more than 5 stars), the full backdrop image is displayed. Otherwise, a poster image, the movie title, and overview is listed. Use Heterogenous RecyclerViews and use different ViewHolder layout files for popular movies and less popular ones.
 
 ### App Walkthough GIF
-`TODO://` Add the URL to your animated app walkthough `gif` in the image tag below, `YOUR_GIF_URL_HERE`. Make sure the gif actually renders and animates when viewing this README. (🚫 Remove this paragraph after after adding gif)
 
-<img src="Assignment1.gif" width=250><br>
+<img src="Assignment1_.gif" width=250><br>
 
 ### Notes
-Describe any challenges encountered while building the app.
+Heterogenous RecyclerViews part was challeging because I trouble with setting it up and crashing
+but it works now.  I added text that shows the user ratings but sometimes it can overlap with other text.
 
 ### Open-source libraries used
 
