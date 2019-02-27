@@ -24,7 +24,7 @@ import cz.msebera.android.httpclient.Header;
 public class DetailActivity extends YouTubeBaseActivity {
 
     private   static  final String YOUTUBE_API_KEY = "AIzaSyCP-xW3Hxf6gUWM-Rwkj05TI_hzHPx5_4I";
-    private   static  final String TRAILERS_API = "https://api.themoviedb.org/3/movie/209112/videos?api_key=a07e22bc18f5cb106bfe4cc1f83ad8ed";
+    private   static  final String TRAILERS_API = "https://api.themoviedb.org/3/movie/%d/videos?api_key=a07e22bc18f5cb106bfe4cc1f83ad8ed";
 
     TextView tvTitle;
     TextView tvOverview;

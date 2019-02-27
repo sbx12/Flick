@@ -111,6 +111,7 @@ public class MoviesAdapter extends  RecyclerView.Adapter<MoviesAdapter.ViewHolde
                     i.putExtra("movie", Parcels.wrap(movie));
                     context.startActivity(i);
                 }
+
             });
         }
 
