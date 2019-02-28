@@ -1,7 +1,5 @@
 package com.conversion.sbx.flick;
 
-import android.os.Parcel;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.RatingBar;
 import android.widget.TextView;
@@ -19,12 +17,14 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import org.parceler.Parcels;
 
+import butterknife.ButterKnife;
+import butterknife.InjectView;
 import cz.msebera.android.httpclient.Header;
 
 public class DetailActivity extends YouTubeBaseActivity {
 
-    private   static  final String YOUTUBE_API_KEY = "AIzaSyCP-xW3Hxf6gUWM-Rwkj05TI_hzHPx5_4I";
-    private   static  final String TRAILERS_API = "https://api.themoviedb.org/3/movie/%d/videos?api_key=a07e22bc18f5cb106bfe4cc1f83ad8ed";
+    private static final String YOUTUBE_API_KEY = "AIzaSyCP-xW3Hxf6gUWM-Rwkj05TI_hzHPx5_4I";
+    private static final String TRAILERS_API = "https://api.themoviedb.org/3/movie/%d/videos?api_key=a07e22bc18f5cb106bfe4cc1f83ad8ed";
 
     TextView tvTitle;
     TextView tvOverview;
@@ -32,14 +32,21 @@ public class DetailActivity extends YouTubeBaseActivity {
     YouTubePlayerView youTubePlayerView;
 
     Movie movie;
+    @InjectView(R.id.player)
+    YouTubePlayerView player;
+    @InjectView(R.id.movieTitle)
+    TextView movieTitle;
+    @InjectView(R.id.movieOverview)
+    TextView movieOverview;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail);
+        ButterKnife.inject(this);
 
         tvTitle = findViewById(R.id.movieTitle);
-        tvOverview =findViewById(R.id.movieOverview);
+        tvOverview = findViewById(R.id.movieOverview);
         ratingBar = findViewById(R.id.ratingBar);
         youTubePlayerView = findViewById(R.id.player);
 
@@ -49,14 +56,14 @@ public class DetailActivity extends YouTubeBaseActivity {
         ratingBar.setRating((float) movie.getVoteAverageDouble());
 
         AsyncHttpClient client = new AsyncHttpClient();
-        client.get(String.format(TRAILERS_API, movie.getMovieId()), new JsonHttpResponseHandler(){
+        client.get(String.format(TRAILERS_API, movie.getMovieId()), new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                 super.onSuccess(statusCode, headers, response);
 
                 try {
                     JSONArray results = response.getJSONArray("results");
-                    if(results.length() == 0)
+                    if (results.length() == 0)
                         return;
                     JSONObject movieTrailer = results.getJSONObject(0);
                     String youtubeKey = movieTrailer.getString("key");
@@ -78,6 +85,8 @@ public class DetailActivity extends YouTubeBaseActivity {
             @Override
             public void onInitializationSuccess(YouTubePlayer.Provider provider, YouTubePlayer youTubePlayer, boolean b) {
                 youTubePlayer.cueVideo(youtubeKey);
+                if (movie.isPopular())
+                    youTubePlayer.loadVideo(youtubeKey);
             }
 
             @Override

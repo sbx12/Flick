@@ -3,7 +3,6 @@ package com.conversion.sbx.flick.adapters;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
-import android.os.Parcel;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -13,7 +12,6 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
@@ -25,12 +23,25 @@ import org.parceler.Parcels;
 
 import java.util.List;
 
-public class MoviesAdapter extends  RecyclerView.Adapter<MoviesAdapter.ViewHolder>{
+import butterknife.InjectView;
+import jp.wasabeef.glide.transformations.RoundedCornersTransformation;
+
+public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.ViewHolder> {
 
     Context context;
     List<Movie> movies;
     int yesP = 1, noP = 0;
-   
+    @InjectView(R.id.tvPoster)
+    ImageView tvPoster;
+    @InjectView(R.id.tvtitle)
+    TextView tvtitle;
+    @InjectView(R.id.tvOverView)
+    TextView tvOverView;
+    @InjectView(R.id.tvRating)
+    TextView tvRating;
+    @InjectView(R.id.containerimovie)
+    RelativeLayout containerimovie;
+
 
     public MoviesAdapter(Context context, List<Movie> movies) {
         this.context = context;
@@ -42,7 +53,7 @@ public class MoviesAdapter extends  RecyclerView.Adapter<MoviesAdapter.ViewHolde
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         Log.d("smile", "onCreateViewHolder");
         View view;
-        if(getItemViewType(viewType) == yesP)
+        if (getItemViewType(viewType) == yesP)
             view = LayoutInflater.from(context).inflate(R.layout.item_movie_5star, parent, false);
         else
             view = LayoutInflater.from(context).inflate(R.layout.item_movie, parent, false);
@@ -53,11 +64,11 @@ public class MoviesAdapter extends  RecyclerView.Adapter<MoviesAdapter.ViewHolde
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         Log.d("smile", "onBindViewHolder" + position);
-       Movie movie =  movies.get(position);
-       if (getItemViewType(position) == yesP)
-           holder.bindPop(movie);
-       else
-           holder.bind(movie);
+        Movie movie = movies.get(position);
+        if (getItemViewType(position) == yesP)
+            holder.bindPop(movie);
+        else
+            holder.bind(movie);
     }
 
     @Override
@@ -67,13 +78,13 @@ public class MoviesAdapter extends  RecyclerView.Adapter<MoviesAdapter.ViewHolde
 
     @Override
     public int getItemViewType(int position) {
-        if(movies.get(position).isPopular())
+        if (movies.get(position).isPopular())
             return yesP;
         else
             return noP;
     }
 
-    class ViewHolder extends RecyclerView.ViewHolder{
+    class ViewHolder extends RecyclerView.ViewHolder {
 
         TextView tvTitle;
         TextView tvOverview;
@@ -82,7 +93,7 @@ public class MoviesAdapter extends  RecyclerView.Adapter<MoviesAdapter.ViewHolde
         RelativeLayout container;
 
 
-        public  ViewHolder(View itemView){
+        public ViewHolder(View itemView) {
             super(itemView);
             tvTitle = itemView.findViewById(R.id.tvtitle);
             tvOverview = itemView.findViewById(R.id.tvOverView);
@@ -99,11 +110,11 @@ public class MoviesAdapter extends  RecyclerView.Adapter<MoviesAdapter.ViewHolde
 
             String imageUrl = movie.getPosterPath();
 
-            if(context.getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE){
+            if (context.getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
                 imageUrl = movie.getBackdropPath();
             }
             //NAV to
-            Glide.with(context).load(imageUrl).apply(new RequestOptions().placeholder(R.drawable.moon1)).into(tvPoster);
+            Glide.with(context).load(imageUrl).apply(new RequestOptions().placeholder(R.drawable.moon1).transform(new RoundedCornersTransformation(20, 20))).into(tvPoster);
             container.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -120,7 +131,7 @@ public class MoviesAdapter extends  RecyclerView.Adapter<MoviesAdapter.ViewHolde
             String imageUrl;
             imageUrl = movie.getBackdropPath();
 
-            Glide.with(context).load(imageUrl).apply(new RequestOptions().placeholder(R.drawable.moon1)).into(tvPoster);
+            Glide.with(context).load(imageUrl).apply(new RequestOptions().placeholder(R.drawable.moon1).transform(new RoundedCornersTransformation(20, 20))).into(tvPoster);
 
 
         }
