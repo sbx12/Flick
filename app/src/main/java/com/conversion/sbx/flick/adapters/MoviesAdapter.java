@@ -114,7 +114,7 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.ViewHolder
                 imageUrl = movie.getBackdropPath();
             }
             //NAV to
-            Glide.with(context).load(imageUrl).apply(new RequestOptions().placeholder(R.drawable.moon1).transform(new RoundedCornersTransformation(20, 20))).into(tvPoster);
+            Glide.with(context).load(imageUrl).apply(new RequestOptions().placeholder(R.mipmap.moon1).transform(new RoundedCornersTransformation(20, 20))).into(tvPoster);
             container.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -130,9 +130,18 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.ViewHolder
         public void bindPop(final Movie movie) {
             String imageUrl;
             imageUrl = movie.getBackdropPath();
+            tvRating.setText(movie.getVoteAverage());
+            Glide.with(context).load(imageUrl).apply(new RequestOptions().placeholder(R.mipmap.moon1).transform(new RoundedCornersTransformation(20, 20))).into(tvPoster);
 
-            Glide.with(context).load(imageUrl).apply(new RequestOptions().placeholder(R.drawable.moon1).transform(new RoundedCornersTransformation(20, 20))).into(tvPoster);
+            container.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent i = new Intent(context, DetailActivity.class);
+                    i.putExtra("movie", Parcels.wrap(movie));
+                    context.startActivity(i);
+                }
 
+            });
 
         }
     }
